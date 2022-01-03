@@ -1,14 +1,16 @@
-import { useParams, useNavigate } from "react-router-dom";
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const Board = () => {
+const BoardMod = () => {
     const navigate = useNavigate();
     const params = useParams();
 
     const [board, setBoard] = useState();
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/board/${params.boardId}`).then(res => {
+        fetch(`${process.env.REACT_APP_API_URL}/board/${params.id}`).then(res => {
             res.json().then(json => {
                 setBoard(json);
             });
@@ -16,7 +18,7 @@ const Board = () => {
     }, []);
 
     const save = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/board/${params.boardId}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/board/${params.id}`, {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(board)
@@ -28,15 +30,15 @@ const Board = () => {
     }
 
     const del = () => {
-        if (confirm('Delete?')) {
-            fetch(`${process.env.REACT_APP_API_URL}/board/${params.boardId}`, {
+        if (window.confirm('Delete?')) {
+            fetch(`${process.env.REACT_APP_API_URL}/board/${params.id}`, {
                 method: 'DELETE',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(board)
             }).then(res => {
                 res.json().then(json => {
                     alert(json.message);
-                    navigate('/');
+                    navigate('/boardList');
                 });
             });
         }
@@ -58,9 +60,21 @@ const Board = () => {
                     </div>
                 </div>
                 <div className="field">
-                    <label className="label">content</label>
+                    <label className="label">content (with ckeditor)</label>
                     <div className="control">
-                        <textarea className="textarea" value={board.content} onChange={(e) => { setBoard({ ...board, content: e.target.value }) }} />
+                        <CKEditor
+                            editor={ClassicEditor}
+                            className="textarea"
+                            data={board.content}
+                            onChange={(event, editor) => {
+                                setBoard({ ...board, content: editor.getData() });
+                            }}
+                        />
+                    </div>
+                </div>
+                <div className="field">
+                    <label className="label">content (no editor)</label>
+                    <div className="control" dangerouslySetInnerHTML={{ __html: board.content }}>
                     </div>
                 </div>
                 <div className="field">
@@ -85,7 +99,7 @@ const Board = () => {
                         <button className="button is-primary" onClick={save}>저장</button>
                     </p>
                     <p className="control">
-                        <button className="button is-secondary" onClick={() => { navigate('/'); }}>목록</button>
+                        <button className="button is-secondary" onClick={() => { navigate('/boardList'); }}>목록</button>
                     </p>
                 </div>
             </>
@@ -94,4 +108,4 @@ const Board = () => {
     )
 }
 
-export default Board;
+export default BoardMod;
