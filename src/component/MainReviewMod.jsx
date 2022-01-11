@@ -1,40 +1,57 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const MainBannerReg = () => {
+const MainReviewMod = () => {
     const navigate = useNavigate();
+    const params = useParams();
 
     const [obj, setObj] = useState();
 
     useEffect(() => {
-        var now = new Date();
-        setObj({
-            id: -1,
-            name: '',
-            thumb_url: '',
-            url: '',
-            reg_id: '정정화',
-            reg_date: `${now.getFullYear()}.${now.getMonth() + 1}.${now.getDate()}`
+        fetch(`${process.env.REACT_APP_API_URL}/lush/mainReview/${params.id}`).then(res => {
+            res.json().then(json => {
+                setObj({...json, mod_id: 'jjh'});
+            });
         });
     }, []);
 
     const save = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainBanner`, {
-            method: 'PUT',
+        fetch(`${process.env.REACT_APP_API_URL}/lush/mainReview/${params.id}`, {
+            method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(obj)
         }).then(res => {
             res.json().then(json => {
                 alert(json.message);
-                navigate('/mainBannerList');
             });
         });
+    }
+
+    const del = () => {
+        if (window.confirm('Delete?')) {
+            fetch(`${process.env.REACT_APP_API_URL}/lush/mainReview/${params.id}`, {
+                method: 'DELETE',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify(obj)
+            }).then(res => {
+                res.json().then(json => {
+                    alert(json.message);
+                    navigate('/mainReviewList');
+                });
+            });
+        }
     }
 
     return (
         obj ?
             <>
-                <h2 className="subtitle">Main Banner</h2>
+                <h2 className="subtitle">Main Review</h2>
+                <div className="field" >
+                    <label className="label">id</label>
+                    <div className="control">
+                        {obj.id}
+                    </div>
+                </div>
                 <div className="field">
                     <label className="label">이름</label>
                     <div className="control">
@@ -54,29 +71,34 @@ const MainBannerReg = () => {
                     </div>
                 </div>
                 <div className="field">
-                    <label className="label">writer</label>
+                    <label className="label">writer / date</label>
                     <div className="control">
-                        {obj.reg_id}
+                        {obj.reg_nm} / {obj.reg_date}
                     </div>
                 </div>
                 <div className="field">
-                    <label className="label">date</label>
+                    <label className="label">updater / date</label>
                     <div className="control">
-                        {obj.reg_date}
+                    {obj.mod_nm} / {obj.mod_date}
                     </div>
                 </div>
-                <div className="field is-grouped is-grouped-right">
+                <div className="field is-pulled-left">
+                    <p className="control">
+                        <button className="button has-background-danger-dark has-text-white" onClick={del}>삭제</button>
+                    </p>
+                </div>
+                <div className="field is-pulled-right is-grouped is-grouped-right">
                     <p className="control">
                         <button className="button is-primary" onClick={save}>저장</button>
                     </p>
                     <p className="control">
-                        <button className="button is-secondary" onClick={() => { navigate('/boardList'); }}>목록</button>
+                        <button className="button is-secondary" onClick={() => { navigate('/mainReviewList'); }}>목록</button>
                     </p>
                 </div>
             </>
             :
-            <><h2 className="subtitle">Main Banner</h2></>
+            <><h2 className="subtitle">Main Review</h2></>
     )
 }
 
-export default MainBannerReg;
+export default MainReviewMod;

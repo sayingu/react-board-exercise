@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const MainBannerMod = () => {
+const MainProductMod = () => {
     const navigate = useNavigate();
     const params = useParams();
 
     const [obj, setObj] = useState();
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainBanner/${params.id}`).then(res => {
+        fetch(`${process.env.REACT_APP_API_URL}/lush/mainProduct/${params.id}`).then(res => {
             res.json().then(json => {
-                setObj(json);
+                setObj({...json, mod_id: 'jjh'});
             });
         });
     }, []);
 
     const save = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainBanner/${params.id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/lush/mainProduct/${params.id}`, {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(obj)
@@ -29,14 +29,14 @@ const MainBannerMod = () => {
 
     const del = () => {
         if (window.confirm('Delete?')) {
-            fetch(`${process.env.REACT_APP_API_URL}/lush/mainBanner/${params.id}`, {
+            fetch(`${process.env.REACT_APP_API_URL}/lush/mainProduct/${params.id}`, {
                 method: 'DELETE',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(obj)
             }).then(res => {
                 res.json().then(json => {
                     alert(json.message);
-                    navigate('/mainBannerList');
+                    navigate('/mainProductList');
                 });
             });
         }
@@ -45,7 +45,7 @@ const MainBannerMod = () => {
     return (
         obj ?
             <>
-                <h2 className="subtitle">Main Banner</h2>
+                <h2 className="subtitle">Main Product</h2>
                 <div className="field" >
                     <label className="label">id</label>
                     <div className="control">
@@ -56,6 +56,23 @@ const MainBannerMod = () => {
                     <label className="label">이름</label>
                     <div className="control">
                         <input className="input" type="text" placeholder="Text input" value={obj.name} onChange={(e) => { setObj({ ...obj, name: e.target.value }) }} />
+                    </div>
+                </div>
+                <div className="field">
+                    <label className="label">태그</label>
+                    <div className="control">
+                        <input className="input" type="text" placeholder="Text input" value={obj.tag} onChange={(e) => { setObj({ ...obj, tag: e.target.value }) }} />
+                    </div>
+                </div>
+                <div className="field">
+                    <label className="label">가격</label>
+                    <div className="field has-addons">
+                        <p className="control">
+                            <input className="input" type="number" placeholder="Text input" min={0} value={obj.price} onChange={(e) => { setObj({ ...obj, price: e.target.value }) }} />
+                        </p>
+                        <p class="control">
+                            <a class="button is-static">원</a>
+                        </p>
                     </div>
                 </div>
                 <div className="field">
@@ -71,15 +88,15 @@ const MainBannerMod = () => {
                     </div>
                 </div>
                 <div className="field">
-                    <label className="label">writer</label>
+                    <label className="label">writer / date</label>
                     <div className="control">
-                        {obj.reg_id}
+                        {obj.reg_nm} / {obj.reg_date}
                     </div>
                 </div>
                 <div className="field">
-                    <label className="label">date</label>
+                    <label className="label">updater / date</label>
                     <div className="control">
-                        {obj.reg_date}
+                    {obj.mod_nm} / {obj.mod_date}
                     </div>
                 </div>
                 <div className="field is-pulled-left">
@@ -92,13 +109,13 @@ const MainBannerMod = () => {
                         <button className="button is-primary" onClick={save}>저장</button>
                     </p>
                     <p className="control">
-                        <button className="button is-secondary" onClick={() => { navigate('/mainBannerList'); }}>목록</button>
+                        <button className="button is-secondary" onClick={() => { navigate('/mainProductList'); }}>목록</button>
                     </p>
                 </div>
             </>
             :
-            <><h2 className="subtitle">Main Banner</h2></>
+            <><h2 className="subtitle">Main Product</h2></>
     )
 }
 
-export default MainBannerMod;
+export default MainProductMod;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const MainBannerReg = () => {
+const MainReviewReg = () => {
     const navigate = useNavigate();
 
     const [obj, setObj] = useState();
@@ -13,20 +13,20 @@ const MainBannerReg = () => {
             name: '',
             thumb_url: '',
             url: '',
-            reg_id: '정정화',
+            reg_id: 'jjh',
             reg_date: `${now.getFullYear()}.${now.getMonth() + 1}.${now.getDate()}`
         });
     }, []);
 
     const save = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainBanner`, {
+        fetch(`${process.env.REACT_APP_API_URL}/lush/mainReview`, {
             method: 'PUT',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(obj)
         }).then(res => {
             res.json().then(json => {
                 alert(json.message);
-                navigate('/mainBannerList');
+                navigate('/mainReviewList');
             });
         });
     }
@@ -34,7 +34,7 @@ const MainBannerReg = () => {
     return (
         obj ?
             <>
-                <h2 className="subtitle">Main Banner</h2>
+                <h2 className="subtitle">Main Review</h2>
                 <div className="field">
                     <label className="label">이름</label>
                     <div className="control">
@@ -75,8 +75,8 @@ const MainBannerReg = () => {
                 </div>
             </>
             :
-            <><h2 className="subtitle">Main Banner</h2></>
+            <><h2 className="subtitle">Main Review</h2></>
     )
 }
 
-export default MainBannerReg;
+export default MainReviewReg;
