@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const MainBannerList = () => {
+const MainBannerList = (props) => {
     const navigate = useNavigate();
 
     const [srchName, setSrchName] = useState('');
@@ -17,24 +17,26 @@ const MainBannerList = () => {
     const pagePerBoard = useRef(2);
 
     const getList = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainBanner?page=${page}&countPerPage=${countPerPage}&srchName=${srchName}&srchWriter=${srchWriter}&srchDateFrom=${srchDateFrom}&srchDateTo=${srchDateTo}`).then(res => {
-            res.json().then(json => {
-                totalPage.current = Math.ceil(json.totalCount / countPerPage);
-                var _pageList = [];
-                for (var i = 1; i <= totalPage.current; i++) {
-                    _pageList.push(i);
-                    if (i % pagePerBoard.current === 0) {
-                        if (_pageList.includes(page)) {
-                            break;
-                        } else {
-                            _pageList = [];
+        fetch(`${process.env.REACT_APP_API_URL}/lush/mainBanner?page=${page}&countPerPage=${countPerPage}&srchName=${srchName}&srchWriter=${srchWriter}&srchDateFrom=${srchDateFrom}&srchDateTo=${srchDateTo}`,
+            // { credentials: 'include', headers: { 'Authorizaton': props.token } }
+            ).then(res => {
+                res.json().then(json => {
+                    totalPage.current = Math.ceil(json.totalCount / countPerPage);
+                    var _pageList = [];
+                    for (var i = 1; i <= totalPage.current; i++) {
+                        _pageList.push(i);
+                        if (i % pagePerBoard.current === 0) {
+                            if (_pageList.includes(page)) {
+                                break;
+                            } else {
+                                _pageList = [];
+                            }
                         }
                     }
-                }
-                setPageList(_pageList);
-                setList(json.list);
+                    setPageList(_pageList);
+                    setList(json.list);
+                });
             });
-        });
     };
 
     useEffect(() => {
