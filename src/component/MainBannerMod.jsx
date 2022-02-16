@@ -8,7 +8,7 @@ const MainBannerMod = () => {
     const [obj, setObj] = useState();
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainBanner/${params.id}`).then(res => {
+        fetch(`/api/lush/mainBanner/${params.id}`).then(res => {
             res.json().then(json => {
                 setObj(json);
             });
@@ -16,7 +16,7 @@ const MainBannerMod = () => {
     }, []);
 
     const save = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainBanner/${params.id}`, {
+        fetch(`/api/lush/mainBanner/${params.id}`, {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(obj)
@@ -29,7 +29,7 @@ const MainBannerMod = () => {
 
     const del = () => {
         if (window.confirm('Delete?')) {
-            fetch(`${process.env.REACT_APP_API_URL}/lush/mainBanner/${params.id}`, {
+            fetch(`/api/lush/mainBanner/${params.id}`, {
                 method: 'DELETE',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(obj)

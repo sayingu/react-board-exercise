@@ -19,7 +19,7 @@ const MainBannerReg = () => {
     }, []);
 
     const save = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainBanner`, {
+        fetch(`/api/lush/mainBanner`, {
             method: 'PUT',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(obj)

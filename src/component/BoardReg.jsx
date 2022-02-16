@@ -21,7 +21,7 @@ const BoardReg = () => {
     }, []);
 
     const save = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/board`, {
+        fetch(`/api/board`, {
             method: 'PUT',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(obj)

@@ -10,7 +10,7 @@ const BoardMod = () => {
     const [board, setBoard] = useState();
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/board/${params.id}`).then(res => {
+        fetch(`/api/board/${params.id}`).then(res => {
             res.json().then(json => {
                 setBoard(json);
             });
@@ -18,7 +18,7 @@ const BoardMod = () => {
     }, []);
 
     const save = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/board/${params.id}`, {
+        fetch(`/api/board/${params.id}`, {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(board)
@@ -31,7 +31,7 @@ const BoardMod = () => {
 
     const del = () => {
         if (window.confirm('Delete?')) {
-            fetch(`${process.env.REACT_APP_API_URL}/board/${params.id}`, {
+            fetch(`/api/board/${params.id}`, {
                 method: 'DELETE',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(board)

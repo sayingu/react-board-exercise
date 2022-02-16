@@ -17,26 +17,26 @@ const MainBannerList = (props) => {
     const pagePerBoard = useRef(2);
 
     const getList = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainBanner?page=${page}&countPerPage=${countPerPage}&srchName=${srchName}&srchWriter=${srchWriter}&srchDateFrom=${srchDateFrom}&srchDateTo=${srchDateTo}`,
-            // { credentials: 'include', headers: { 'Authorizaton': props.token } }
-            ).then(res => {
-                res.json().then(json => {
-                    totalPage.current = Math.ceil(json.totalCount / countPerPage);
-                    var _pageList = [];
-                    for (var i = 1; i <= totalPage.current; i++) {
-                        _pageList.push(i);
-                        if (i % pagePerBoard.current === 0) {
-                            if (_pageList.includes(page)) {
-                                break;
-                            } else {
-                                _pageList = [];
-                            }
+        fetch(`/api/lush/mainBanner?page=${page}&countPerPage=${countPerPage}&srchName=${srchName}&srchWriter=${srchWriter}&srchDateFrom=${srchDateFrom}&srchDateTo=${srchDateTo}`,
+            { headers: { 'Authorization': props.token } }
+        ).then(res => {
+            res.json().then(json => {
+                totalPage.current = Math.ceil(json.totalCount / countPerPage);
+                var _pageList = [];
+                for (var i = 1; i <= totalPage.current; i++) {
+                    _pageList.push(i);
+                    if (i % pagePerBoard.current === 0) {
+                        if (_pageList.includes(page)) {
+                            break;
+                        } else {
+                            _pageList = [];
                         }
                     }
-                    setPageList(_pageList);
-                    setList(json.list);
-                });
+                }
+                setPageList(_pageList);
+                setList(json.list);
             });
+        });
     };
 
     useEffect(() => {
@@ -62,26 +62,26 @@ const MainBannerList = (props) => {
         <>
             <h2 className="subtitle">Main Banner</h2>
 
-            <div class="columns">
-                <div class="column is-one-third">
+            <div className="columns">
+                <div className="column is-one-third">
                     <div className="field">
-                        <label class="label">작성일</label>
+                        <label className="label">작성일</label>
                         <p className="control">
                             <input type="date" data-is-range={true} data-date-format={"yyyy.MM.dd"} />
                         </p>
                     </div>
                 </div>
-                <div class="column">
+                <div className="column">
                     <div className="field">
-                        <label class="label">이름</label>
+                        <label className="label">이름</label>
                         <p className="control">
                             <input className="input" type="text" placeholder="Text input" value={srchName} onChange={(e) => { setSrchName(e.target.value) }} />
                         </p>
                     </div>
                 </div>
-                <div class="column">
-                    <div class="field">
-                        <label class="label">작성자</label>
+                <div className="column">
+                    <div className="field">
+                        <label className="label">작성자</label>
                         <p className="control is-expanded">
                             <div className="select is-fullwidth">
                                 <select value={srchWriter} onChange={(e) => { setSrchWriter(e.target.value) }}>
@@ -93,9 +93,9 @@ const MainBannerList = (props) => {
                         </p>
                     </div>
                 </div>
-                <div class="column">
+                <div className="column">
                     <div className="field">
-                        <label class="label">&nbsp;</label>
+                        <label className="label">&nbsp;</label>
                         <p className="control is-pulled-right">
                             <button className="button is-secondary" onClick={getList}>검색</button>
                         </p>

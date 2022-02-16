@@ -21,7 +21,7 @@ const MainProductReg = () => {
     }, []);
 
     const save = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainProduct`, {
+        fetch(`/api/lush/mainProduct`, {
             method: 'PUT',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(obj)
@@ -55,8 +55,8 @@ const MainProductReg = () => {
                         <p className="control">
                             <input className="input" type="number" placeholder="Text input" min={0} value={obj.price} onChange={(e) => { setObj({ ...obj, price: e.target.value }) }} />
                         </p>
-                        <p class="control">
-                            <a class="button is-static">원</a>
+                        <p className="control">
+                            <a className="button is-static">원</a>
                         </p>
                     </div>
                 </div>

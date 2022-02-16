@@ -10,7 +10,7 @@ export default (props) => {
     });
 
     const login = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
+        fetch(`/api/auth/login`, {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(user)

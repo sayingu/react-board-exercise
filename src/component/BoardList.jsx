@@ -17,7 +17,7 @@ const BoardList = () => {
     const pagePerBoard = useRef(2);
 
     const getList = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/board?page=${page}&countPerPage=${countPerPage}&srchSubject=${srchSubject}&srchWriter=${srchWriter}&srchDateFrom=${srchDateFrom}&srchDateTo=${srchDateTo}`).then(res => {
+        fetch(`/api/board?page=${page}&countPerPage=${countPerPage}&srchSubject=${srchSubject}&srchWriter=${srchWriter}&srchDateFrom=${srchDateFrom}&srchDateTo=${srchDateTo}`).then(res => {
             res.json().then(json => {
                 totalPage.current = Math.ceil(json.totalCount / countPerPage);
                 var _pageList = [];

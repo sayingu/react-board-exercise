@@ -19,7 +19,7 @@ const MainReviewReg = () => {
     }, []);
 
     const save = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainReview`, {
+        fetch(`/api/lush/mainReview`, {
             method: 'PUT',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(obj)

@@ -20,7 +20,7 @@ const MainProductList = () => {
 
     const getList = () => {
         setIsLoading(true);
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainProduct?page=${page}&countPerPage=${countPerPage}&srchName=${srchName}&srchWriter=${srchWriter}&srchDateFrom=${srchDateFrom}&srchDateTo=${srchDateTo}`).then(res => {
+        fetch(`/api/lush/mainProduct?page=${page}&countPerPage=${countPerPage}&srchName=${srchName}&srchWriter=${srchWriter}&srchDateFrom=${srchDateFrom}&srchDateTo=${srchDateTo}`).then(res => {
             setIsLoading(false);
             res.json().then(json => {
                 const _totalPage = Math.ceil(json.totalCount / countPerPage);
@@ -65,26 +65,26 @@ const MainProductList = () => {
         <>
             <h2 className="subtitle">Main Product</h2>
 
-            <div class="columns">
-                <div class="column is-one-third">
+            <div className="columns">
+                <div className="column is-one-third">
                     <div className="field">
-                        <label class="label">작성일</label>
+                        <label className="label">작성일</label>
                         <p className="control">
                             <input type="date" data-is-range={true} data-date-format={"yyyy.MM.dd"} />
                         </p>
                     </div>
                 </div>
-                <div class="column">
+                <div className="column">
                     <div className="field">
-                        <label class="label">이름</label>
+                        <label className="label">이름</label>
                         <p className="control">
                             <input className="input" type="text" placeholder="Text input" value={srchName} onChange={(e) => { setSrchName(e.target.value) }} />
                         </p>
                     </div>
                 </div>
-                <div class="column">
-                    <div class="field">
-                        <label class="label">작성자</label>
+                <div className="column">
+                    <div className="field">
+                        <label className="label">작성자</label>
                         <p className="control is-expanded">
                             <div className="select is-fullwidth">
                                 <select value={srchWriter} onChange={(e) => { setSrchWriter(e.target.value) }}>
@@ -96,9 +96,9 @@ const MainProductList = () => {
                         </p>
                     </div>
                 </div>
-                <div class="column">
+                <div className="column">
                     <div className="field">
-                        <label class="label">&nbsp;</label>
+                        <label className="label">&nbsp;</label>
                         <p className="control is-pulled-right">
                             <button className={`button is-secondary ${isLoading ? 'is-loading' : ''}`} onClick={getList}>검색</button>
                         </p>
@@ -160,7 +160,7 @@ const MainProductList = () => {
                             {totalPage > pagePerBoard &&
                                 <>
                                     <a className="pagination-link" onClick={() => { setPage(1) }}>1</a>
-                                    <li><span class="pagination-ellipsis">&hellip;</span></li>
+                                    <li><span className="pagination-ellipsis">&hellip;</span></li>
                                 </>
                             }
                             {pageList.map((value, index) => (
@@ -168,7 +168,7 @@ const MainProductList = () => {
                             ))}
                             {totalPage > pagePerBoard &&
                                 <>
-                                    <li><span class="pagination-ellipsis">&hellip;</span></li>
+                                    <li><span className="pagination-ellipsis">&hellip;</span></li>
                                     <a className="pagination-link" onClick={() => { setPage(totalPage) }}>{totalPage}</a>
                                 </>
                             }

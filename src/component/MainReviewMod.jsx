@@ -8,7 +8,7 @@ const MainReviewMod = () => {
     const [obj, setObj] = useState();
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainReview/${params.id}`).then(res => {
+        fetch(`/api/lush/mainReview/${params.id}`).then(res => {
             res.json().then(json => {
                 setObj({...json, mod_id: 'jjh'});
             });
@@ -16,7 +16,7 @@ const MainReviewMod = () => {
     }, []);
 
     const save = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainReview/${params.id}`, {
+        fetch(`/api/lush/mainReview/${params.id}`, {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(obj)
@@ -29,7 +29,7 @@ const MainReviewMod = () => {
 
     const del = () => {
         if (window.confirm('Delete?')) {
-            fetch(`${process.env.REACT_APP_API_URL}/lush/mainReview/${params.id}`, {
+            fetch(`/api/lush/mainReview/${params.id}`, {
                 method: 'DELETE',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(obj)

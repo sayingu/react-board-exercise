@@ -8,7 +8,7 @@ const MainProductMod = () => {
     const [obj, setObj] = useState();
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainProduct/${params.id}`).then(res => {
+        fetch(`/api/lush/mainProduct/${params.id}`).then(res => {
             res.json().then(json => {
                 setObj({...json, mod_id: 'jjh'});
             });
@@ -16,7 +16,7 @@ const MainProductMod = () => {
     }, []);
 
     const save = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/lush/mainProduct/${params.id}`, {
+        fetch(`/api/lush/mainProduct/${params.id}`, {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(obj)
@@ -29,7 +29,7 @@ const MainProductMod = () => {
 
     const del = () => {
         if (window.confirm('Delete?')) {
-            fetch(`${process.env.REACT_APP_API_URL}/lush/mainProduct/${params.id}`, {
+            fetch(`/api/lush/mainProduct/${params.id}`, {
                 method: 'DELETE',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(obj)
@@ -70,8 +70,8 @@ const MainProductMod = () => {
                         <p className="control">
                             <input className="input" type="number" placeholder="Text input" min={0} value={obj.price} onChange={(e) => { setObj({ ...obj, price: e.target.value }) }} />
                         </p>
-                        <p class="control">
-                            <a class="button is-static">원</a>
+                        <p className="control">
+                            <a className="button is-static">원</a>
                         </p>
                     </div>
                 </div>
